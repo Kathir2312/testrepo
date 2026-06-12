@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { api, formatMoney } from '../api/client.js';
-import Loader from '../components/Loader.jsx';
+import SkeletonList from '../components/Skeleton.jsx';
 
 const GRADIENTS = [
   'linear-gradient(135deg,#667eea,#764ba2)', 'linear-gradient(135deg,#2c5364,#0f2027)',
@@ -32,7 +32,7 @@ export default function HotelResults() {
   }, [data, minStars, sort]);
 
   if (error) return <div className="container results-page"><div className="error-banner">{error}</div></div>;
-  if (!data) return <div className="container results-page"><Loader text="Finding places to stay…" /></div>;
+  if (!data) return <div className="container results-page"><SkeletonList count={5} /></div>;
 
   const q = data.query;
 
@@ -96,7 +96,12 @@ export default function HotelResults() {
               </div>
             </article>
           ))}
-          {!hotels.length && <div className="empty">No hotels match your filters.</div>}
+          {!hotels.length && (
+            <div className="empty">
+              <div className="empty-icon" aria-hidden="true">🏨</div>
+              No hotels match your filters. Try lowering the star rating.
+            </div>
+          )}
         </section>
       </div>
     </div>

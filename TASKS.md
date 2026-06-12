@@ -38,11 +38,21 @@ Status legend: ✅ done · 🔲 not started
 - ✅ **T5.2** Frontend production build green (`npm run build`)
 - ✅ **T5.3** End-to-end smoke test: search → select → book → confirmation against the running stack
 
-## Epic 6 — Future enhancements (not started)
-- 🔲 **T6.1** Replace JSON-file store with PostgreSQL service in compose
-- 🔲 **T6.2** User accounts and "My trips" page (list bookings by email exists in the API already)
-- 🔲 **T6.3** Price calendar / "whole month" search
-- 🔲 **T6.4** "Everywhere" destination search (cheapest fare per destination)
-- 🔲 **T6.5** Multi-currency support (`Accept-Currency` + FX table)
-- 🔲 **T6.6** CI pipeline (GitHub Actions: test + build + docker build)
-- 🔲 **T6.7** Playwright end-to-end tests
+## Epic 6 — UX/UI Pro Max (design system & polish)
+- ✅ **T6.1** `uxui-promax` project skill (`.claude/skills/uxui-promax/SKILL.md`): design tokens, motion rules, state requirements, a11y checklist, UI definition of done
+- ✅ **T6.2** Token-driven theming with **dark mode** (header toggle, `localStorage` persistence, `prefers-color-scheme` default, no-flash bootstrap)
+- ✅ **T6.3** Skeleton loading screens replacing spinners on all result pages
+- ✅ **T6.4** Micro-interactions: card hover lift, staggered fade-up on results, button press states, animated origin/destination swap button
+- ✅ **T6.5** Flight card tags (Cheapest / Fastest / Best) computed per filtered set
+- ✅ **T6.6** Hero upgrade: glow accents, floating plane, subline, trust-stats strip; USP icons; richer multi-column footer
+- ✅ **T6.7** Accessibility: `:focus-visible` rings, aria-labels on icon buttons, `prefers-reduced-motion` support
+- ✅ **T6.8** Mobile polish: cards collapse to vertical layout at 560px, buy panel becomes bottom row
+
+## Epic 7 — Future enhancements (not started)
+- 🔲 **T7.1** Replace JSON-file store with PostgreSQL service in compose
+- 🔲 **T7.2** User accounts and "My trips" page (list bookings by email exists in the API already)
+- 🔲 **T7.3** Price calendar / "whole month" search
+- 🔲 **T7.4** "Everywhere" destination search (cheapest fare per destination)
+- 🔲 **T7.5** Multi-currency support (`Accept-Currency` + FX table)
+- 🔲 **T7.6** CI pipeline (GitHub Actions: test + build + docker build)
+- 🔲 **T7.7** Playwright end-to-end tests

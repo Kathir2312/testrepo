@@ -29,10 +29,13 @@ function Leg({ leg }) {
   );
 }
 
-export default function FlightCard({ itinerary }) {
+const TAG_LABELS = { cheapest: 'Cheapest', fastest: 'Fastest', best: 'Best' };
+
+export default function FlightCard({ itinerary, tag }) {
   const navigate = useNavigate();
   return (
     <article className="flight-card">
+      {tag && <span className={`card-tag ${tag}`}>{TAG_LABELS[tag]}</span>}
       <div className="flight-legs">
         <Leg leg={itinerary.outbound} />
         {itinerary.inbound && <Leg leg={itinerary.inbound} />}

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { api, formatMoney } from '../api/client.js';
-import Loader from '../components/Loader.jsx';
+import SkeletonList from '../components/Skeleton.jsx';
 
 export default function CarResults() {
   const [params] = useSearchParams();
@@ -24,7 +24,7 @@ export default function CarResults() {
   }, [data, automaticOnly, sort]);
 
   if (error) return <div className="container results-page"><div className="error-banner">{error}</div></div>;
-  if (!data) return <div className="container results-page"><Loader text="Comparing car hire deals…" /></div>;
+  if (!data) return <div className="container results-page"><SkeletonList count={5} /></div>;
 
   const q = data.query;
 
@@ -84,7 +84,12 @@ export default function CarResults() {
               </div>
             </article>
           ))}
-          {!cars.length && <div className="empty">No cars match your filters.</div>}
+          {!cars.length && (
+            <div className="empty">
+              <div className="empty-icon" aria-hidden="true">🚗</div>
+              No cars match your filters. Try including manual transmission.
+            </div>
+          )}
         </section>
       </div>
     </div>

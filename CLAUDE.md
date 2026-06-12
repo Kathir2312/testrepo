@@ -83,6 +83,13 @@ cd frontend && npm run build               # production bundle in dist/
 - Validation errors in the backend are thrown as `Error` with a `status`
   property and handled by the final error middleware in `app.js`.
 
+## Project skills
+
+- **uxui-promax** (`.claude/skills/uxui-promax/SKILL.md`) — the design
+  playbook for this repo. Apply it for *any* frontend change: design tokens
+  and dark theme rules, motion guidelines, the loading/empty/error-state
+  requirement, accessibility checklist, and the UI definition of done.
+
 ## Testing & verification
 
 - `cd backend && npm test` must pass before pushing.

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { api, formatMoney, formatDuration } from '../api/client.js';
 import FlightCard from '../components/FlightCard.jsx';
-import Loader from '../components/Loader.jsx';
+import SkeletonList from '../components/Skeleton.jsx';
 
 function totalDuration(it) {
   return it.outbound.durationMins + (it.inbound ? it.inbound.durationMins : 0);
@@ -83,9 +83,20 @@ export default function FlightResults() {
   }
 
   if (error) return <div className="container results-page"><div className="error-banner">{error}</div></div>;
-  if (!data) return <div className="container results-page"><Loader text="Searching hundreds of fares…" /></div>;
+  if (!data) return <div className="container results-page"><SkeletonList count={6} /></div>;
 
   const q = data.query;
+
+  // Tag the standout itineraries (uxui-promax: guide the eye to the answer).
+  const cheapestId = filtered.length ? [...filtered].sort(SORTS.cheapest)[0].id : null;
+  const fastestId = filtered.length ? [...filtered].sort(SORTS.fastest)[0].id : null;
+  const bestId = filtered.length ? [...filtered].sort(SORTS.best)[0].id : null;
+  const tagFor = (it) => {
+    if (it.id === cheapestId) return 'cheapest';
+    if (it.id === fastestId) return 'fastest';
+    if (it.id === bestId && bestId !== cheapestId && bestId !== fastestId) return 'best';
+    return null;
+  };
 
   return (
     <div className="container results-page">
@@ -158,8 +169,13 @@ export default function FlightResults() {
           </div>
 
           <div className="result-list">
-            {filtered.map((it) => <FlightCard key={it.id} itinerary={it} />)}
-            {!filtered.length && <div className="empty">No flights match your filters. Try widening them.</div>}
+            {filtered.map((it) => <FlightCard key={it.id} itinerary={it} tag={tagFor(it)} />)}
+            {!filtered.length && (
+              <div className="empty">
+                <div className="empty-icon" aria-hidden="true">🛫</div>
+                No flights match your filters. Try widening them.
+              </div>
+            )}
           </div>
         </section>
       </div>

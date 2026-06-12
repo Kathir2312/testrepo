@@ -81,6 +81,15 @@ export default function SearchWidget({ initialTab = 'flights' }) {
               <label>From</label>
               <input list="airport-list" required value={flight.origin}
                 onChange={(e) => setFlight({ ...flight, origin: e.target.value.toUpperCase() })} placeholder="Airport code" />
+              <button
+                type="button"
+                className="swap-btn"
+                aria-label="Swap origin and destination"
+                title="Swap origin and destination"
+                onClick={() => setFlight({ ...flight, origin: flight.destination, destination: flight.origin })}
+              >
+                ⇄
+              </button>
             </div>
             <div className="field">
               <label>To</label>

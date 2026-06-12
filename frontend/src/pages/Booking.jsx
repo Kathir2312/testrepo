@@ -99,6 +99,10 @@ export default function Booking() {
         <button className="search-submit" type="submit" disabled={submitting} style={{ width: '100%' }}>
           {submitting ? 'Confirming…' : `Confirm and book · ${formatMoney(item.totalPrice)}`}
         </button>
+        <p className="secure-note">
+          <span aria-hidden="true">🔒</span>
+          Free cancellation within 24 hours. Your details are only used for this booking.
+        </p>
       </form>
 
       <aside className="panel">

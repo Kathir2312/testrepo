@@ -29,30 +29,48 @@ export default function Home() {
   return (
     <>
       <section className="hero">
+        <span className="hero-plane" aria-hidden="true">✈️</span>
         <div className="container">
           <h1>{headline}</h1>
+          <p className="hero-sub">One search across every airline, stay and set of wheels. Zero hidden fees.</p>
           <SearchWidget initialTab={tab} />
+          <div className="hero-stats">
+            <div><strong>30</strong> airports covered</div>
+            <div><strong>16</strong> airlines compared</div>
+            <div><strong>1M+</strong> simulated fares</div>
+            <div><strong>100%</strong> instant confirmation</div>
+          </div>
         </div>
       </section>
 
       <div className="container">
-        <div className="usp-row">
+        <div className="usp-row fade-up">
           <div className="usp">
-            <h3>Search everywhere</h3>
-            <p>Compare hundreds of simulated airlines, hotels and car hire providers in one search.</p>
+            <span className="usp-icon" aria-hidden="true">🔍</span>
+            <div>
+              <h3>Search everywhere</h3>
+              <p>Compare hundreds of simulated airlines, hotels and car hire providers in one search.</p>
+            </div>
           </div>
           <div className="usp">
-            <h3>Transparent prices</h3>
-            <p>The price you see is the price you book. No hidden fees, ever.</p>
+            <span className="usp-icon" aria-hidden="true">💸</span>
+            <div>
+              <h3>Transparent prices</h3>
+              <p>The price you see is the price you book. No hidden fees, ever.</p>
+            </div>
           </div>
           <div className="usp">
-            <h3>Book with confidence</h3>
-            <p>Instant confirmation with a booking reference you can look up any time.</p>
+            <span className="usp-icon" aria-hidden="true">🛡️</span>
+            <div>
+              <h3>Book with confidence</h3>
+              <p>Instant confirmation with a booking reference you can look up any time.</p>
+            </div>
           </div>
         </div>
 
         <section className="deals">
           <h2>Flight deals from London</h2>
+          <p className="section-sub">Return fares spotted in the last 24 hours — tap one to see live results.</p>
           <div className="deal-grid">
             {DEALS.map((d) => (
               <Link
