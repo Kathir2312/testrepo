@@ -1,0 +1,24 @@
+services:
+  backend:
+    build: ./backend
+    container_name: skyscout-backend
+    environment:
+      PORT: 4000
+      BOOKINGS_DB: /app/data/bookings.json
+    volumes:
+      - bookings-data:/app/data
+    expose:
+      - "4000"
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    container_name: skyscout-frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  bookings-data:
