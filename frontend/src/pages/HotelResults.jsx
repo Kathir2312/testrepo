@@ -3,11 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { api, formatMoney } from '../api/client.js';
 import SkeletonList from '../components/Skeleton.jsx';
 
-const GRADIENTS = [
-  'linear-gradient(135deg,#667eea,#764ba2)', 'linear-gradient(135deg,#2c5364,#0f2027)',
-  'linear-gradient(135deg,#11998e,#38ef7d)', 'linear-gradient(135deg,#ee9ca7,#ffdde1)',
-  'linear-gradient(135deg,#f2994a,#f2c94c)', 'linear-gradient(135deg,#4568dc,#b06ab3)'
-];
+const THUMB_CLASSES = ['g1', 'g2', 'g4', 'g3', 'g5', 'g6'];
 
 export default function HotelResults() {
   const [params] = useSearchParams();
@@ -16,12 +12,13 @@ export default function HotelResults() {
   const [error, setError] = useState(null);
   const [minStars, setMinStars] = useState(0);
   const [sort, setSort] = useState('recommended');
+  const [retryKey, setRetryKey] = useState(0);
 
   useEffect(() => {
     setData(null);
     setError(null);
     api.searchHotels(Object.fromEntries(params)).then(setData).catch((e) => setError(e.message));
-  }, [params]);
+  }, [params, retryKey]);
 
   const hotels = useMemo(() => {
     if (!data) return [];
@@ -31,7 +28,16 @@ export default function HotelResults() {
     return list;
   }, [data, minStars, sort]);
 
-  if (error) return <div className="container results-page"><div className="error-banner">{error}</div></div>;
+  if (error) {
+    return (
+      <div className="container results-page">
+        <div className="error-banner" role="alert">
+          <span>We couldn't load these stays: {error}</span>
+          <button className="retry-btn" onClick={() => setRetryKey((k) => k + 1)}>Try again</button>
+        </div>
+      </div>
+    );
+  }
   if (!data) return <div className="container results-page"><SkeletonList count={5} /></div>;
 
   const q = data.query;
@@ -43,7 +49,7 @@ export default function HotelResults() {
           <h2>Hotels in {q.city}</h2>
           <div className="sub">{q.checkIn} – {q.checkOut} · {q.nights} night{q.nights > 1 ? 's' : ''} · {q.guests} guest{q.guests > 1 ? 's' : ''} · {q.rooms} room{q.rooms > 1 ? 's' : ''}</div>
         </div>
-        <div className="sub">{hotels.length} of {data.count} stays</div>
+        <div className="sub" aria-live="polite">{hotels.length} of {data.count} stays</div>
       </div>
 
       <div className="results-layout">
@@ -72,7 +78,7 @@ export default function HotelResults() {
         <section className="result-list">
           {hotels.map((h, i) => (
             <article className="stay-card" key={h.id}>
-              <div className="stay-thumb" style={{ background: GRADIENTS[i % GRADIENTS.length] }}>
+              <div className={`stay-thumb ${THUMB_CLASSES[i % THUMB_CLASSES.length]}`} aria-hidden="true">
                 {h.name.split(' ').map((w) => w[0]).slice(0, 2).join('')}
               </div>
               <div className="stay-body">
@@ -99,7 +105,8 @@ export default function HotelResults() {
           {!hotels.length && (
             <div className="empty">
               <div className="empty-icon" aria-hidden="true">🏨</div>
-              No hotels match your filters. Try lowering the star rating.
+              <p>No hotels match your filters — the star rating is hiding every stay in {q.city}.</p>
+              <button className="select-btn" onClick={() => setMinStars(0)}>Show all stays</button>
             </div>
           )}
         </section>

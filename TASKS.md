@@ -47,6 +47,7 @@ Status legend: ✅ done · 🔲 not started
 - ✅ **T6.6** Hero upgrade: glow accents, floating plane, subline, trust-stats strip; USP icons; richer multi-column footer
 - ✅ **T6.7** Accessibility: `:focus-visible` rings, aria-labels on icon buttons, `prefers-reduced-motion` support
 - ✅ **T6.8** Mobile polish: cards collapse to vertical layout at 560px, buy panel becomes bottom row
+- ✅ **T6.9** Full playbook polish pass (`/uxui-promax`): error banners gain "Try again" retry actions; empty states gain one-click recovery buttons; `aria-live` result counts; labels tied to inputs across all forms; 40px hit targets; inline gradients moved to tokenized classes; confirmation page gains a booking-details panel with next steps; NotFound gains a real call to action
 
 ## Epic 7 — Future enhancements (not started)
 - 🔲 **T7.1** Replace JSON-file store with PostgreSQL service in compose

@@ -7,7 +7,7 @@ export default function Footer() {
         <div className="footer-cols">
           <div>
             <h4>SkyScout</h4>
-            <p style={{ margin: 0, lineHeight: 1.5 }}>
+            <p className="footer-blurb">
               Compare flights, hotels and car hire in one search.
               A Skyscanner-style travel search demo — not affiliated with Skyscanner Ltd.
               All prices and inventory are simulated.

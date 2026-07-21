@@ -13,7 +13,7 @@ function FlightSummary({ item }) {
       ))}
       <div className="summary-row">
         <span>Cabin</span>
-        <span style={{ textTransform: 'capitalize' }}>{item.cabinClass.replace('_', ' ')}</span>
+        <span className="cap">{item.cabinClass.replace('_', ' ')}</span>
       </div>
       <div className="summary-row">
         <span>Travellers</span>
@@ -77,26 +77,26 @@ export default function Booking() {
     <div className="container booking-layout">
       <form className="panel" onSubmit={submit}>
         <h2>Traveller details</h2>
-        {error && <div className="error-banner">{error}</div>}
+        {error && <div className="error-banner" role="alert"><span>{error}</span></div>}
         <div className="form-grid">
           <div className="form-field">
-            <label>First name</label>
-            <input required value={contact.firstName} onChange={(e) => setContact({ ...contact, firstName: e.target.value })} />
+            <label htmlFor="b-first">First name</label>
+            <input id="b-first" autoComplete="given-name" required value={contact.firstName} onChange={(e) => setContact({ ...contact, firstName: e.target.value })} />
           </div>
           <div className="form-field">
-            <label>Last name</label>
-            <input required value={contact.lastName} onChange={(e) => setContact({ ...contact, lastName: e.target.value })} />
+            <label htmlFor="b-last">Last name</label>
+            <input id="b-last" autoComplete="family-name" required value={contact.lastName} onChange={(e) => setContact({ ...contact, lastName: e.target.value })} />
           </div>
           <div className="form-field full">
-            <label>Email</label>
-            <input type="email" required value={contact.email} onChange={(e) => setContact({ ...contact, email: e.target.value })} />
+            <label htmlFor="b-email">Email</label>
+            <input id="b-email" type="email" autoComplete="email" required value={contact.email} onChange={(e) => setContact({ ...contact, email: e.target.value })} />
           </div>
           <div className="form-field full">
-            <label>Phone (optional)</label>
-            <input value={contact.phone} onChange={(e) => setContact({ ...contact, phone: e.target.value })} />
+            <label htmlFor="b-phone">Phone (optional)</label>
+            <input id="b-phone" type="tel" autoComplete="tel" value={contact.phone} onChange={(e) => setContact({ ...contact, phone: e.target.value })} />
           </div>
         </div>
-        <button className="search-submit" type="submit" disabled={submitting} style={{ width: '100%' }}>
+        <button className="search-submit btn-block" type="submit" disabled={submitting}>
           {submitting ? 'Confirming…' : `Confirm and book · ${formatMoney(item.totalPrice)}`}
         </button>
         <p className="secure-note">

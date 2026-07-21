@@ -61,9 +61,16 @@ export default function SearchWidget({ initialTab = 'flights' }) {
 
   return (
     <div className="search-widget">
-      <div className="search-tabs">
+      <div className="search-tabs" role="tablist" aria-label="Search type">
         {TABS.map((t) => (
-          <button key={t.id} type="button" className={tab === t.id ? 'active' : ''} onClick={() => setTab(t.id)}>
+          <button
+            key={t.id}
+            type="button"
+            role="tab"
+            aria-selected={tab === t.id}
+            className={tab === t.id ? 'active' : ''}
+            onClick={() => setTab(t.id)}
+          >
             {t.label}
           </button>
         ))}
@@ -72,14 +79,14 @@ export default function SearchWidget({ initialTab = 'flights' }) {
       {tab === 'flights' && (
         <form className="search-form-wrap" onSubmit={submit}>
           <div className="trip-toggle">
-            <label><input type="radio" checked={roundTrip} onChange={() => setRoundTrip(true)} /> Return</label>
-            <label><input type="radio" checked={!roundTrip} onChange={() => setRoundTrip(false)} /> One way</label>
+            <label><input type="radio" name="trip" checked={roundTrip} onChange={() => setRoundTrip(true)} /> Return</label>
+            <label><input type="radio" name="trip" checked={!roundTrip} onChange={() => setRoundTrip(false)} /> One way</label>
           </div>
           <div className="search-form">
             {airportOptions}
             <div className="field">
-              <label>From</label>
-              <input list="airport-list" required value={flight.origin}
+              <label htmlFor="f-origin">From</label>
+              <input id="f-origin" list="airport-list" required value={flight.origin}
                 onChange={(e) => setFlight({ ...flight, origin: e.target.value.toUpperCase() })} placeholder="Airport code" />
               <button
                 type="button"
@@ -92,31 +99,31 @@ export default function SearchWidget({ initialTab = 'flights' }) {
               </button>
             </div>
             <div className="field">
-              <label>To</label>
-              <input list="airport-list" required value={flight.destination}
+              <label htmlFor="f-destination">To</label>
+              <input id="f-destination" list="airport-list" required value={flight.destination}
                 onChange={(e) => setFlight({ ...flight, destination: e.target.value.toUpperCase() })} placeholder="Airport code" />
             </div>
             <div className="field">
-              <label>Depart</label>
-              <input type="date" required value={flight.departDate}
+              <label htmlFor="f-depart">Depart</label>
+              <input id="f-depart" type="date" required value={flight.departDate}
                 onChange={(e) => setFlight({ ...flight, departDate: e.target.value })} />
             </div>
             {roundTrip && (
               <div className="field">
-                <label>Return</label>
-                <input type="date" required value={flight.returnDate}
+                <label htmlFor="f-return">Return</label>
+                <input id="f-return" type="date" required value={flight.returnDate}
                   onChange={(e) => setFlight({ ...flight, returnDate: e.target.value })} />
               </div>
             )}
             <div className="field">
-              <label>Travellers</label>
-              <select value={flight.adults} onChange={(e) => setFlight({ ...flight, adults: e.target.value })}>
+              <label htmlFor="f-adults">Travellers</label>
+              <select id="f-adults" value={flight.adults} onChange={(e) => setFlight({ ...flight, adults: e.target.value })}>
                 {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => <option key={n} value={n}>{n} adult{n > 1 ? 's' : ''}</option>)}
               </select>
             </div>
             <div className="field">
-              <label>Cabin class</label>
-              <select value={flight.cabinClass} onChange={(e) => setFlight({ ...flight, cabinClass: e.target.value })}>
+              <label htmlFor="f-cabin">Cabin class</label>
+              <select id="f-cabin" value={flight.cabinClass} onChange={(e) => setFlight({ ...flight, cabinClass: e.target.value })}>
                 <option value="economy">Economy</option>
                 <option value="premium_economy">Premium Economy</option>
                 <option value="business">Business</option>
@@ -132,26 +139,26 @@ export default function SearchWidget({ initialTab = 'flights' }) {
         <form onSubmit={submit}>
           <div className="search-form">
             <div className="field">
-              <label>Destination</label>
-              <input required value={hotel.city} onChange={(e) => setHotel({ ...hotel, city: e.target.value })} placeholder="City" />
+              <label htmlFor="h-city">Destination</label>
+              <input id="h-city" required value={hotel.city} onChange={(e) => setHotel({ ...hotel, city: e.target.value })} placeholder="City" />
             </div>
             <div className="field">
-              <label>Check-in</label>
-              <input type="date" required value={hotel.checkIn} onChange={(e) => setHotel({ ...hotel, checkIn: e.target.value })} />
+              <label htmlFor="h-checkin">Check-in</label>
+              <input id="h-checkin" type="date" required value={hotel.checkIn} onChange={(e) => setHotel({ ...hotel, checkIn: e.target.value })} />
             </div>
             <div className="field">
-              <label>Check-out</label>
-              <input type="date" required value={hotel.checkOut} onChange={(e) => setHotel({ ...hotel, checkOut: e.target.value })} />
+              <label htmlFor="h-checkout">Check-out</label>
+              <input id="h-checkout" type="date" required value={hotel.checkOut} onChange={(e) => setHotel({ ...hotel, checkOut: e.target.value })} />
             </div>
             <div className="field">
-              <label>Guests</label>
-              <select value={hotel.guests} onChange={(e) => setHotel({ ...hotel, guests: e.target.value })}>
+              <label htmlFor="h-guests">Guests</label>
+              <select id="h-guests" value={hotel.guests} onChange={(e) => setHotel({ ...hotel, guests: e.target.value })}>
                 {[1, 2, 3, 4, 5, 6].map((n) => <option key={n} value={n}>{n} guest{n > 1 ? 's' : ''}</option>)}
               </select>
             </div>
             <div className="field">
-              <label>Rooms</label>
-              <select value={hotel.rooms} onChange={(e) => setHotel({ ...hotel, rooms: e.target.value })}>
+              <label htmlFor="h-rooms">Rooms</label>
+              <select id="h-rooms" value={hotel.rooms} onChange={(e) => setHotel({ ...hotel, rooms: e.target.value })}>
                 {[1, 2, 3, 4].map((n) => <option key={n} value={n}>{n} room{n > 1 ? 's' : ''}</option>)}
               </select>
             </div>
@@ -164,16 +171,16 @@ export default function SearchWidget({ initialTab = 'flights' }) {
         <form onSubmit={submit}>
           <div className="search-form">
             <div className="field">
-              <label>Pick-up location</label>
-              <input required value={car.location} onChange={(e) => setCar({ ...car, location: e.target.value })} placeholder="City or airport" />
+              <label htmlFor="c-location">Pick-up location</label>
+              <input id="c-location" required value={car.location} onChange={(e) => setCar({ ...car, location: e.target.value })} placeholder="City or airport" />
             </div>
             <div className="field">
-              <label>Pick-up date</label>
-              <input type="date" required value={car.pickUpDate} onChange={(e) => setCar({ ...car, pickUpDate: e.target.value })} />
+              <label htmlFor="c-pickup">Pick-up date</label>
+              <input id="c-pickup" type="date" required value={car.pickUpDate} onChange={(e) => setCar({ ...car, pickUpDate: e.target.value })} />
             </div>
             <div className="field">
-              <label>Drop-off date</label>
-              <input type="date" required value={car.dropOffDate} onChange={(e) => setCar({ ...car, dropOffDate: e.target.value })} />
+              <label htmlFor="c-dropoff">Drop-off date</label>
+              <input id="c-dropoff" type="date" required value={car.dropOffDate} onChange={(e) => setCar({ ...car, dropOffDate: e.target.value })} />
             </div>
             <button className="search-submit" type="submit">Search cars</button>
           </div>

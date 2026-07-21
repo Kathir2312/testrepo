@@ -10,12 +10,13 @@ export default function CarResults() {
   const [error, setError] = useState(null);
   const [automaticOnly, setAutomaticOnly] = useState(false);
   const [sort, setSort] = useState('price');
+  const [retryKey, setRetryKey] = useState(0);
 
   useEffect(() => {
     setData(null);
     setError(null);
     api.searchCars(Object.fromEntries(params)).then(setData).catch((e) => setError(e.message));
-  }, [params]);
+  }, [params, retryKey]);
 
   const cars = useMemo(() => {
     if (!data) return [];
@@ -23,7 +24,16 @@ export default function CarResults() {
     return [...list].sort(sort === 'price' ? (a, b) => a.totalPrice - b.totalPrice : (a, b) => b.rating - a.rating);
   }, [data, automaticOnly, sort]);
 
-  if (error) return <div className="container results-page"><div className="error-banner">{error}</div></div>;
+  if (error) {
+    return (
+      <div className="container results-page">
+        <div className="error-banner" role="alert">
+          <span>We couldn't load these cars: {error}</span>
+          <button className="retry-btn" onClick={() => setRetryKey((k) => k + 1)}>Try again</button>
+        </div>
+      </div>
+    );
+  }
   if (!data) return <div className="container results-page"><SkeletonList count={5} /></div>;
 
   const q = data.query;
@@ -35,7 +45,7 @@ export default function CarResults() {
           <h2>Car hire in {q.location}</h2>
           <div className="sub">{q.pickUpDate} – {q.dropOffDate} · {q.days} day{q.days > 1 ? 's' : ''}</div>
         </div>
-        <div className="sub">{cars.length} of {data.count} cars</div>
+        <div className="sub" aria-live="polite">{cars.length} of {data.count} cars</div>
       </div>
 
       <div className="results-layout">
@@ -62,7 +72,7 @@ export default function CarResults() {
         <section className="result-list">
           {cars.map((c) => (
             <article className="stay-card" key={c.id}>
-              <div className="stay-thumb" style={{ background: 'linear-gradient(135deg,#0c3b66,#0770e3)' }}>🚗</div>
+              <div className="stay-thumb g-sky" aria-hidden="true">🚗</div>
               <div className="stay-body">
                 <h3>{c.model} <span className="stay-meta">or similar</span></h3>
                 <div className="stay-meta">{c.category} · {c.seats} seats · {c.bags} bags · {c.transmission}</div>
@@ -87,7 +97,8 @@ export default function CarResults() {
           {!cars.length && (
             <div className="empty">
               <div className="empty-icon" aria-hidden="true">🚗</div>
-              No cars match your filters. Try including manual transmission.
+              <p>No cars match your filters — every deal here is manual transmission.</p>
+              <button className="select-btn" onClick={() => setAutomaticOnly(false)}>Include manual cars</button>
             </div>
           )}
         </section>

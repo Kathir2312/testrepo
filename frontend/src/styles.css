@@ -197,9 +197,9 @@ a { color: var(--sky); }
 .field label { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--muted); letter-spacing: 0.4px; }
 .field input, .field select { border: none; outline: none; padding: 2px 0; font-size: 15px; background: transparent; width: 100%; }
 .swap-btn {
-  position: absolute; right: -16px; top: 50%; transform: translateY(-50%); z-index: 2;
-  width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--widget-bg);
-  background: var(--card); color: var(--sky); font-size: 14px; font-weight: 700;
+  position: absolute; right: -20px; top: 50%; transform: translateY(-50%); z-index: 2;
+  width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--widget-bg);
+  background: var(--card); color: var(--sky); font-size: 15px; font-weight: 700;
   display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-sm);
   transition: transform 0.2s ease;
 }
@@ -416,7 +416,15 @@ a { color: var(--sky); }
 .error-banner {
   background: rgba(209, 67, 91, 0.12); color: var(--red); border-radius: var(--radius-ctl);
   padding: 12px 14px; margin: 12px 0; font-size: 14px;
+  display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;
 }
+.retry-btn {
+  background: var(--red); color: #fff; border: none; border-radius: var(--radius-ctl);
+  padding: 8px 16px; font-weight: 700; font-size: 13px;
+  transition: opacity 0.15s ease, transform 0.1s ease;
+}
+.retry-btn:hover { opacity: 0.88; }
+.retry-btn:active { transform: scale(0.96); }
 .secure-note { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 13px; margin-top: 12px; }
 
 /* ---------- Confirmation ---------- */
@@ -440,3 +448,23 @@ a { color: var(--sky); }
   text-align: center; color: var(--muted); box-shadow: var(--shadow-sm);
 }
 .empty .empty-icon { font-size: 40px; margin-bottom: 8px; }
+.empty .select-btn { margin-top: 16px; }
+
+/* ---------- Utility classes (uxui-promax: no inline styles/colors) ---------- */
+.btn-block { width: 100%; }
+.cap { text-transform: capitalize; }
+.footer-blurb { margin: 0; line-height: 1.5; }
+
+/* Decorative gradient swatches for deal banners and stay thumbnails */
+.g1 { background: linear-gradient(135deg, #4568dc, #b06ab3); }
+.g2 { background: linear-gradient(135deg, #0f2027, #2c5364); }
+.g3 { background: linear-gradient(135deg, #f2994a, #f2c94c); }
+.g4 { background: linear-gradient(135deg, #11998e, #38ef7d); }
+.g5 { background: linear-gradient(135deg, #cb2d3e, #ef473a); }
+.g6 { background: linear-gradient(135deg, #141e30, #243b55); }
+.g-sky { background: linear-gradient(135deg, var(--navy-light), var(--sky)); }
+
+/* ---------- Confirmation details ---------- */
+.confirm-details { max-width: 480px; margin: 8px auto 40px; text-align: left; }
+.confirm-steps { display: grid; gap: 8px; margin-top: 16px; }
+.confirm-steps div { display: flex; gap: 10px; align-items: baseline; font-size: 14px; color: var(--muted); }

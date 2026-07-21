@@ -25,19 +25,24 @@ export default function FlightResults() {
   const [stopFilter, setStopFilter] = useState(new Set());
   const [airlineFilter, setAirlineFilter] = useState(new Set());
   const [maxPrice, setMaxPrice] = useState(null);
+  const [retryKey, setRetryKey] = useState(0);
 
   const query = Object.fromEntries(params);
+
+  function clearFilters() {
+    setStopFilter(new Set());
+    setAirlineFilter(new Set());
+    setMaxPrice(null);
+  }
 
   useEffect(() => {
     setData(null);
     setError(null);
-    setStopFilter(new Set());
-    setAirlineFilter(new Set());
-    setMaxPrice(null);
+    clearFilters();
     api.searchFlights(query)
       .then(setData)
       .catch((e) => setError(e.message));
-  }, [params]);
+  }, [params, retryKey]);
 
   const priceBounds = useMemo(() => {
     if (!data) return [0, 0];
@@ -82,7 +87,16 @@ export default function FlightResults() {
     setter(next);
   }
 
-  if (error) return <div className="container results-page"><div className="error-banner">{error}</div></div>;
+  if (error) {
+    return (
+      <div className="container results-page">
+        <div className="error-banner" role="alert">
+          <span>We couldn't load these flights: {error}</span>
+          <button className="retry-btn" onClick={() => setRetryKey((k) => k + 1)}>Try again</button>
+        </div>
+      </div>
+    );
+  }
   if (!data) return <div className="container results-page"><SkeletonList count={6} /></div>;
 
   const q = data.query;
@@ -107,7 +121,7 @@ export default function FlightResults() {
             {q.departDate}{q.returnDate ? ` – ${q.returnDate}` : ' · one way'} · {q.adults} adult{q.adults > 1 ? 's' : ''} · {q.cabinClass.replace('_', ' ')}
           </div>
         </div>
-        <div className="sub">{filtered.length} of {data.count} results</div>
+        <div className="sub" aria-live="polite">{filtered.length} of {data.count} results</div>
       </div>
 
       <div className="results-layout">
@@ -173,7 +187,8 @@ export default function FlightResults() {
             {!filtered.length && (
               <div className="empty">
                 <div className="empty-icon" aria-hidden="true">🛫</div>
-                No flights match your filters. Try widening them.
+                <p>No flights match your filters — every itinerary on this route is currently hidden.</p>
+                <button className="select-btn" onClick={clearFilters}>Clear all filters</button>
               </div>
             )}
           </div>

@@ -2,12 +2,12 @@ import { Link, useSearchParams } from 'react-router-dom';
 import SearchWidget from '../components/SearchWidget.jsx';
 
 const DEALS = [
-  { city: 'Paris', code: 'CDG', price: 89, color: 'linear-gradient(135deg,#4568dc,#b06ab3)' },
-  { city: 'New York', code: 'JFK', price: 312, color: 'linear-gradient(135deg,#0f2027,#2c5364)' },
-  { city: 'Dubai', code: 'DXB', price: 268, color: 'linear-gradient(135deg,#f2994a,#f2c94c)' },
-  { city: 'Singapore', code: 'SIN', price: 401, color: 'linear-gradient(135deg,#11998e,#38ef7d)' },
-  { city: 'Rome', code: 'FCO', price: 74, color: 'linear-gradient(135deg,#cb2d3e,#ef473a)' },
-  { city: 'Tokyo', code: 'NRT', price: 489, color: 'linear-gradient(135deg,#141e30,#243b55)' }
+  { city: 'Paris', code: 'CDG', price: 89, swatch: 'g1' },
+  { city: 'New York', code: 'JFK', price: 312, swatch: 'g2' },
+  { city: 'Dubai', code: 'DXB', price: 268, swatch: 'g3' },
+  { city: 'Singapore', code: 'SIN', price: 401, swatch: 'g4' },
+  { city: 'Rome', code: 'FCO', price: 74, swatch: 'g5' },
+  { city: 'Tokyo', code: 'NRT', price: 489, swatch: 'g6' }
 ];
 
 function todayPlus(days) {
@@ -82,7 +82,7 @@ export default function Home() {
                   adults: 1, cabinClass: 'economy'
                 })}`}
               >
-                <div className="deal-banner" style={{ background: d.color }}>{d.city}</div>
+                <div className={`deal-banner ${d.swatch}`}>{d.city}</div>
                 <div className="deal-body">
                   <span className="sub">Return from</span>
                   <span className="price">${d.price}</span>
